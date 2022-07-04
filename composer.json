@@ -1,6 +1,6 @@
 {
     "name": "chrisabey84/laravel-cached-options-list",
-    "description": "A simple package that allows you to cache all the rows in a relationship model for use in select arrays in forms",
+    "description": "A simple package that allows you to cache all rows on a relationship model for use in select arrays on forms",
     "keywords": [
         "chrisabey84",
         "laravel",
@@ -59,7 +59,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "CachedOptionsListServiceProvider"
+                "LaravelCachedOptionsListServiceProvider"
             ]
         }
     },
