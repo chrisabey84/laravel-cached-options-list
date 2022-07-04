@@ -1,10 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace Chrisabey84\LaravelCachedOptionsList\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\TestCase as Orchestra;
-use VendorName\Skeleton\SkeletonServiceProvider;
+use Chrisabey84\LaravelCachedOptionsList\LaravelCachedOptionsListServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -13,14 +15,14 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'VendorName\\Skeleton\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Chrisabey84\\LaravelCachedOptionsList\\Tests\\Stubs\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
-            SkeletonServiceProvider::class,
+            LaravelCachedOptionsListServiceProvider::class,
         ];
     }
 
@@ -28,9 +30,11 @@ class TestCase extends Orchestra
     {
         config()->set('database.default', 'testing');
 
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_skeleton_table.php.stub';
-        $migration->up();
-        */
+        Schema::create('test-models', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->softDeletes();
+            $table->timestamps();
+        });
     }
 }

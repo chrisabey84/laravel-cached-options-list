@@ -1,71 +1,79 @@
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/support-ukraine.svg?t=1" />](https://supportukrainenow.org)
+# Cache all the rows in a relationship model as a select array for  use in forms
 
-# :package_description
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/chrisabey84/laravel-cached-options-list.svg?style=flat-square)](https://packagist.org/packages/chrisabey84/laravel-cached-options-list)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/chrisabey84/laravel-cached-options-list/run-tests?label=tests)](https://github.com/chrisabey84/laravel-cached-options-list/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/chrisabey84/laravel-cached-options-list/Check%20&%20fix%20styling?label=code%20style)](https://github.com/chrisabey84/laravel-cached-options-list/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/chrisabey84/laravel-cached-options-list.svg?style=flat-square)](https://packagist.org/packages/chrisabey84/laravel-cached-options-list)
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/:vendor_slug/:package_slug/run-tests?label=tests)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/:vendor_slug/:package_slug/Check%20&%20fix%20styling?label=code%20style)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-<!--delete-->
----
-This repo can be used to scaffold a Laravel package. Follow these steps to get started:
-
-1. Press the "Use this template" button at the top of this repo to create a new repo with the contents of this skeleton.
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files.
-3. Have fun creating your package.
-4. If you need help creating a package, consider picking up our <a href="https://laravelpackage.training">Laravel Package Training</a> video course.
----
-<!--/delete-->
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/:package_name.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/:package_name)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+A simple package that allows you to cache all the rows in a relationship model for use in select arrays in forms.
 
 ## Installation
 
 You can install the package via composer:
 
 ```bash
-composer require :vendor_slug/:package_slug
-```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag=":package_slug-migrations"
-php artisan migrate
+composer require chrisabey84/laravel-cached-options-list
 ```
 
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag=":package_slug-config"
+php artisan vendor:publish --provider="Chrisabey84\LaravelCachedOptionsList\LaravelCachedOptionsListServiceProvider
 ```
 
 This is the contents of the published config file:
 
 ```php
 return [
+    'key' => 'id', //The index/key column for the select options array
+    'value' => 'name', //The value column for the select options array
 ];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag=":package_slug-views"
 ```
 
 ## Usage
 
+Adding the `HasCachedOptionsList` trait to any of your models will provide the following functionality:
+
 ```php
-$variable = new VendorName\Skeleton();
-echo $variable->echoPhrase('Hello, VendorName!');
+$rows = \App\Models\MyModel::asSelectArray();
+```
+
+Will retrieve all rows as an associative array which can then be used in your blade templates to populate the option in a select box:
+
+```php
+<select name="mySelectBox">
+@foreach($rows as $key => $value)
+	<option value="{{ $key }}">{{ $value }}</option>
+@endforeach
+</select>
+```
+
+### Custom Behavior
+
+By default `asSelectArray()` will retrieve all rows from the database table however, you can customise this behavior by overriding the following method in your model which must return a `Builder` instance:
+
+```php
+protected static function buildQuery(): Builder
+{
+	return static::query();
+}
+```
+
+### Clearing The Cache
+
+The cache will be automatically cleared when creating, updating or deleting your models.
+
+To manually clear the cache, you can either call:
+
+```php
+\App\Models\MyModel::clearOptionsCache();
+```
+
+Or use the handy artisan command with the model name as the argument:
+
+```bash
+php artisan cached-options:clear '\App\Models\MyModel'
 ```
 
 ## Testing
@@ -74,21 +82,10 @@ echo $variable->echoPhrase('Hello, VendorName!');
 composer test
 ```
 
-## Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
-## Contributing
-
-Please see [CONTRIBUTING](https://github.com/:author_username/.github/blob/main/CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
 ## Credits
 
-- [:author_name](https://github.com/:author_username)
+- [Christopher Abey](https://github.com/chrisabey84)
 - [All Contributors](../../contributors)
 
 ## License
