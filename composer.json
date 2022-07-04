@@ -59,7 +59,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "LaravelCachedOptionsListServiceProvider"
+                "Chrisabey84\\LaravelCachedOptionsList\\LaravelCachedOptionsListServiceProvider"
             ]
         }
     },
