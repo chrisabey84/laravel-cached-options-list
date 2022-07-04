@@ -2,11 +2,11 @@
 
 namespace Chrisabey84\LaravelCachedOptionsList\Tests;
 
+use Chrisabey84\LaravelCachedOptionsList\LaravelCachedOptionsListServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Chrisabey84\LaravelCachedOptionsList\LaravelCachedOptionsListServiceProvider;
 
 class TestCase extends Orchestra
 {

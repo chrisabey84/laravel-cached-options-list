@@ -4,8 +4,6 @@ namespace Chrisabey84\LaravelCachedOptionsList;
 
 use Chrisabey84\LaravelCachedOptionsList\Commands\ClearCache;
 use Illuminate\Support\ServiceProvider;
-use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class LaravelCachedOptionsListServiceProvider extends ServiceProvider
 {
