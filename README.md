@@ -6,7 +6,7 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/chrisabey84/laravel-cached-options-list/Check%20&%20fix%20styling?label=code%20style)](https://github.com/chrisabey84/laravel-cached-options-list/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/chrisabey84/laravel-cached-options-list.svg?style=flat-square)](https://packagist.org/packages/chrisabey84/laravel-cached-options-list)
 
-A simple package that allows you to cache all the rows in a relationship model for use in select arrays in forms.
+A simple package that allows you to cache all the rows in a relationship model for use in select arrays on forms.
 
 ## Installation
 
